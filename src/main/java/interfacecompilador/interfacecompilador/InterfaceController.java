@@ -8,7 +8,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.stream.IntStream;
@@ -29,14 +31,14 @@ public class InterfaceController {
     @FXML
     private TextArea linhas;
 
+    private static final FileChooser file = new FileChooser();
+
+    private String pastaParaCompilar;
+
     @FXML
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
-
-    private static final FileChooser ufc = new FileChooser();
-
-    private String pathToCompile;
 
     public void novoArquivo() {
         labelStatus.setText("");
@@ -44,7 +46,32 @@ public class InterfaceController {
         areaMensagem.setText("");
     }
 
-    public void salvarArquivo() {
+    public void abrirArquivo() throws IOException {
+            File selectedFile = file.showOpenDialog(areaCodigo.getScene().getWindow());
+            if (selectedFile != null) {
+                String stringDoArquivo = Files.readString(selectedFile.toPath(), StandardCharsets.UTF_8);
+                areaCodigo.setText(stringDoArquivo);
+                labelStatus.setText(selectedFile.getAbsolutePath());
+                pastaParaCompilar = selectedFile.getAbsolutePath();
+                areaMensagem.setText("");
+            }
+    }
+
+    public void salvarArquivo() throws IOException {
+            file.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+            if (labelStatus.getText() != null && !labelStatus.getText().isEmpty()) {
+                FileWriter writer = new FileWriter(labelStatus.getText(), Charset.availableCharsets().get("UTF-8"), false);
+                writer.write(areaCodigo.getText());
+                writer.close();
+            } else {
+                File arquivo = file.showSaveDialog(areaCodigo.getScene().getWindow());
+                if (arquivo == null) {
+                    return;
+                }
+                arquivo.createNewFile();
+                labelStatus.setText(arquivo.getAbsolutePath());
+                pastaParaCompilar = arquivo.getAbsolutePath();
+            }
     }
 
     public void copiar() {
@@ -66,16 +93,7 @@ public class InterfaceController {
     public void mostrarEquipe() {
         areaMensagem.setText("Equipe formada por: Luana Caroline Schmidt, Mateus Maas e Guilherme Milani");
     }
-    public void abrirArquivo() throws IOException {
-        File selectedFile = ufc.showOpenDialog(areaCodigo.getScene().getWindow());
-        if (selectedFile != null) {
-            String s = Files.readString(selectedFile.toPath(), StandardCharsets.UTF_8);
-            areaCodigo.setText(s);
-            labelStatus.setText(selectedFile.getAbsolutePath());
-            pathToCompile = selectedFile.getAbsolutePath();
-            areaMensagem.setText("");
-        }
-    }
+
     private void adicionarLinhas() {
         int linhasExistentes = getQuantidadeLinhas();
         int tamUltimaLinhaAnterior = getTamanhoUltimaLinha();
