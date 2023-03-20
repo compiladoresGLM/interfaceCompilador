@@ -67,6 +67,7 @@ public class InterfaceController {
             areaCodigo.setText(s);
             labelStatus.setText(selectedFile.getAbsolutePath());
             pathToCompile = selectedFile.getAbsolutePath();
+            areaMensagem.setText("");
         }
     }
 
