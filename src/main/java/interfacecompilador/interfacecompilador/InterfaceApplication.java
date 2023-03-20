@@ -11,7 +11,7 @@ public class InterfaceApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InterfaceApplication.class.getResource("interface.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 599);
+        Scene scene = new Scene(fxmlLoader.load(), 1100, 700);
         stage.setTitle("Compilador");
         stage.setScene(scene);
         stage.show();

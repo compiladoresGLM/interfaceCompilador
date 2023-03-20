@@ -41,10 +41,11 @@ public class InterfaceController {
     }
 
     public void compilar() {
-//        "compilacao ainda"
+        areaMensagem.setText("Compilação de programas ainda não foi implementada");
     }
 
     public void mostrarEquipe() {
+        areaMensagem.setText("Equipe formada por: Luana Caroline Schmidt, Mateus Maas e Guilherme Milani");
     }
 
 
