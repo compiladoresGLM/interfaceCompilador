@@ -115,7 +115,7 @@
                <children>
                   <ScrollPane prefHeight="399.0" prefWidth="925.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <TextArea fx:id="areaCodigo1" prefHeight="1080.0" prefWidth="1920.0" />
+                        <TextArea fx:id="areaMensagem" prefHeight="1080.0" prefWidth="1920.0" />
                      </content>
                   </ScrollPane>
                </children>
