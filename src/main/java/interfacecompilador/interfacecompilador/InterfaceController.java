@@ -34,10 +34,6 @@ public class InterfaceController {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
 
-    private static final FileChooser ufc = new FileChooser();
-
-    private String pathToCompile;
-
     public void novoArquivo() {
         labelStatus.setText("");
         areaCodigo.setText("");
