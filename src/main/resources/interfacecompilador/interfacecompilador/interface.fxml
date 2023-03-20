@@ -85,7 +85,7 @@
                </ImageView>
             </graphic></Button>
          <Separator layoutX="161.0" layoutY="406.0" prefHeight="11.0" prefWidth="900.0" />
-         <Label layoutX="14.0" layoutY="536.0" prefHeight="18.0" prefWidth="405.0" text="nome/pasta do arquivo" />
+         <Label fx:id="labelStatus" layoutX="14.0" layoutY="536.0" prefHeight="18.0" prefWidth="405.0" text="nome/pasta do arquivo" />
       </children>
    </Pane>
 </VBox>

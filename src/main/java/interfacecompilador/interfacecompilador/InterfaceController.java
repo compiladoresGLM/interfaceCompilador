@@ -15,11 +15,17 @@ public class InterfaceController {
     private TextArea areaCodigo;
 
     @FXML
+    private Label labelStatus;
+
+    @FXML
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
 
     public void novoArquivo() {
+        labelStatus.setText("");
+        areaCodigo.setText("");
+        areaMensagem.setText("");
     }
 
     public void abrirArquivo() {
