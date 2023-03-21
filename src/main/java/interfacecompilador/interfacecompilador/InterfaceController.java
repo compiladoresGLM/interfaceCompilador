@@ -53,6 +53,7 @@ public class InterfaceController {
         labelStatus.setText("");
         areaCodigo.setText("");
         areaMensagem.setText("");
+        removerLinhas();
     }
 
     public void abrirArquivo() throws IOException {
@@ -63,6 +64,8 @@ public class InterfaceController {
                 labelStatus.setText(selectedFile.getAbsolutePath());
                 pastaParaCompilar = selectedFile.getAbsolutePath();
                 areaMensagem.setText("");
+                adicionarLinhas();
+
             }
     }
 
@@ -93,6 +96,7 @@ public class InterfaceController {
 
     public void recortar() {
         areaCodigo.cut();
+        removerLinhas();
     }
 
     public void compilar() {
