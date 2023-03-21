@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
@@ -14,100 +14,13 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacecompilador.interfacecompilador.InterfaceController">
    <children>
-      <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0">
-         <children>
-            <VBox minWidth="150.0" prefHeight="394.0" prefWidth="183.0">
+      <SplitPane dividerPositions="0.5" layoutX="156.0" layoutY="69.0" orientation="VERTICAL" prefHeight="582.0" prefWidth="927.0">
+         <items>
+            <HBox minWidth="-Infinity" prefHeight="268.0" prefWidth="779.0">
                <children>
-                  <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#novoArquivo" prefHeight="55.0" prefWidth="150.0" text="Novo [ctrl-n]" textAlignment="RIGHT">
-                     <graphic>
-                        <ImageView fitHeight="51.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/novo.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#abrirArquivo" prefHeight="55.0" prefWidth="150.0" text="Abrir [ctrl-o]" textAlignment="RIGHT">
-                     <graphic>
-                        <ImageView fitHeight="37.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/abrir.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#salvarArquivo" prefHeight="55.0" prefWidth="150.0" text="Salvar [ctrl-s]" textAlignment="RIGHT">
-                     <graphic>
-                        <ImageView fitHeight="45.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/salve-.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#copiar" prefHeight="55.0" prefWidth="150.0" text="Copiar [ctrl-c]" textAlignment="RIGHT">
-                     <graphic>
-                        <ImageView fitHeight="37.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/colar.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#colar" prefHeight="55.0" prefWidth="150.0" text="Colar [ctrl-v]" textAlignment="RIGHT">
-                     <graphic>
-                        <ImageView fitHeight="37.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/copiar.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#recortar" prefHeight="55.0" prefWidth="150.0" text="Recortar [ctrl-x]" textAlignment="RIGHT">
-                     <graphic>
-                        <ImageView fitHeight="57.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/recortar.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#compilar" prefHeight="55.0" prefWidth="150.0" text="Compilar [F7]" textAlignment="RIGHT">
-                     <graphic>
-                        <ImageView fitHeight="37.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/compilar.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#mostrarEquipe" prefHeight="55.0" prefWidth="150.0" text="Equipe [F1]" textAlignment="RIGHT">
-                     <graphic>
-                        <ImageView fitHeight="44.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/equipe.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-               <opaqueInsets>
-                  <Insets bottom="10.0" right="10.0" top="10.0" />
-               </opaqueInsets>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </VBox>
-         </children>
-      </HBox>
-      <SplitPane dividerPositions="0.3724137931034483" layoutX="156.0" layoutY="9.0" orientation="VERTICAL" prefHeight="642.0" prefWidth="902.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-               <children>
-                  <TextArea fx:id="areaCodigo" layoutX="-1.0" layoutY="-2.0" onKeyPressed="#alterarContadorDeLinhaAoDigitar" prefHeight="650.0" prefWidth="925.0" />
-                  <VBox layoutX="4.0" layoutY="5.0">
+                  <VBox HBox.hgrow="NEVER">
                      <children>
-                        <TextArea fx:id="linhas" disable="true" minWidth="20.0" prefWidth="20.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                        <TextArea fx:id="linhas" disable="true" minWidth="18.0" prefHeight="178.0" prefWidth="18.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -118,21 +31,103 @@
                            </VBox.margin>
                         </Label>
                      </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
                   </VBox>
+                  <TextArea fx:id="areaCodigo" onKeyPressed="#alterarContadorDeLinhaAoDigitar" prefHeight="392.0" prefWidth="907.0" HBox.hgrow="ALWAYS" />
                </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="173.0" prefWidth="925.0">
+            </HBox>
+            <HBox>
                <children>
-                  <ScrollPane prefHeight="399.0" prefWidth="925.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <content>
-                        <TextArea fx:id="areaMensagem" prefHeight="1080.0" prefWidth="1920.0" />
-                     </content>
-                  </ScrollPane>
+                  <TextArea fx:id="areaMensagem" editable="false" minHeight="100.0" minWidth="400.0" prefHeight="100.0" prefWidth="860.0" HBox.hgrow="ALWAYS" />
                </children>
-            </AnchorPane>
-        </items>
+            </HBox>
+         </items>
       </SplitPane>
-      <Label fx:id="labelStatus" layoutX="14.0" layoutY="669.0" prefHeight="17.0" prefWidth="1069.0" text="pasta/nomeArquivo" AnchorPane.bottomAnchor="15.0" />
+      <Label fx:id="labelStatus" layoutX="-3.0" layoutY="666.0" maxHeight="78.0" minHeight="25.0" prefHeight="39.0" prefWidth="919.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="-13.0" AnchorPane.rightAnchor="194.0" />
+      <VBox layoutX="-10.0" minWidth="102.0" prefHeight="398.0" prefWidth="179.0">
+         <children>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#novoArquivo" prefHeight="55.0" prefWidth="150.0" text="Novo [ctrl-n]" textAlignment="RIGHT">
+               <graphic>
+                  <ImageView fitHeight="51.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/novo.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#abrirArquivo" prefHeight="55.0" prefWidth="150.0" text="Abrir [ctrl-o]" textAlignment="RIGHT">
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/abrir.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#salvarArquivo" prefHeight="55.0" prefWidth="150.0" text="Salvar [ctrl-s]" textAlignment="RIGHT">
+               <graphic>
+                  <ImageView fitHeight="45.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/salve-.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#copiar" prefHeight="55.0" prefWidth="150.0" text="Copiar [ctrl-c]" textAlignment="RIGHT">
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/colar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#colar" prefHeight="55.0" prefWidth="150.0" text="Colar [ctrl-v]" textAlignment="RIGHT">
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/copiar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#recortar" prefHeight="55.0" prefWidth="150.0" text="Recortar [ctrl-x]" textAlignment="RIGHT">
+               <graphic>
+                  <ImageView fitHeight="57.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/recortar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#mostrarEquipe" prefHeight="55.0" prefWidth="150.0" text="Equipe [F1]" textAlignment="RIGHT">
+               <graphic>
+                  <ImageView fitHeight="44.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/equipe.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#compilar" prefHeight="55.0" prefWidth="150.0" text="Compilar [F7]" textAlignment="RIGHT">
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/compilar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="10.0" right="10.0" top="10.0" />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

@@ -29,6 +29,9 @@ public class InterfaceController {
     private Label labelStatus;
 
     @FXML
+    private Label labelLinhas;
+
+    @FXML
     private TextArea linhas;
 
     private static final FileChooser file = new FileChooser();
@@ -38,6 +41,12 @@ public class InterfaceController {
     @FXML
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
+    }
+
+    public void initialize() {
+        linhas.setText(String.valueOf(areaCodigo.getParagraphs().size()));
+        labelLinhas.setVisible(false);
+        file.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
     }
 
     public void novoArquivo() {
@@ -122,10 +131,10 @@ public class InterfaceController {
         String[] todasLinhas = linhas.getText().split("\n");
         return todasLinhas[todasLinhas.length - 1].length();
     }
+
     private int getQuantidadeLinhas() {
         return linhas.getText().split("\n").length;
     }
-
 
     private void redefinirLarguraLista(int tamUltimaLinhaAnterior) {
         int tamUltimaLinha = getTamanhoUltimaLinha();
