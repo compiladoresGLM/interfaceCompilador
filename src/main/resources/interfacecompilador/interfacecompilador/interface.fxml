@@ -13,7 +13,7 @@
 
 <AnchorPane minHeight="700.0" minWidth="1100.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacecompilador.interfacecompilador.InterfaceController">
    <children>
-      <SplitPane dividerPositions="0.5" layoutX="156.0" layoutY="69.0" orientation="VERTICAL" prefHeight="582.0" prefWidth="927.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.5" layoutX="156.0" layoutY="69.0" orientation="VERTICAL" prefHeight="582.0" prefWidth="927.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
             <HBox>
                <children>
@@ -44,7 +44,7 @@
             </HBox>
          </items>
       </SplitPane>
-      <Label fx:id="labelStatus" layoutX="-3.0" layoutY="666.0" maxHeight="78.0" minHeight="25.0" prefHeight="39.0" prefWidth="919.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="-13.0" AnchorPane.rightAnchor="194.0" />
+      <Label fx:id="labelStatus" layoutX="14.0" layoutY="672.0" maxHeight="78.0" minHeight="25.0" prefHeight="26.0" prefWidth="1079.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="215.0" />
       <VBox layoutX="-10.0" minWidth="102.0" prefHeight="398.0" prefWidth="179.0">
          <children>
             <Button alignment="BOTTOM_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#novoArquivo" prefHeight="55.0" prefWidth="150.0" text="Novo [ctrl-n]" textAlignment="RIGHT">
