@@ -65,19 +65,28 @@ public class InterfaceController {
     }
 
     public void salvarArquivo() throws IOException {
-            if (labelStatus.getText() != null && !labelStatus.getText().isEmpty()) {
-                FileWriter writer = new FileWriter(labelStatus.getText(), Charset.availableCharsets().get("UTF-8"), false);
-                writer.write(areaCodigo.getText());
-                writer.close();
-            } else {
-                File arquivo = file.showSaveDialog(areaCodigo.getScene().getWindow());
-                if (arquivo == null) {
-                    return;
-                }
-                arquivo.createNewFile();
-                labelStatus.setText(arquivo.getAbsolutePath());
-                pastaParaCompilar = arquivo.getAbsolutePath();
+        salvarNovoArquivo();
+        editarArquivoJaExistente();
+    }
+
+    private void editarArquivoJaExistente() throws IOException {
+        if (labelStatus.getText() != null && !labelStatus.getText().isEmpty()) {
+            FileWriter writer = new FileWriter(labelStatus.getText(), Charset.availableCharsets().get("UTF-8"), false);
+            writer.write(areaCodigo.getText());
+            writer.close();
+        }
+    }
+
+    private void salvarNovoArquivo() throws IOException {
+        if (labelStatus.getText() == null || labelStatus.getText().isEmpty()) {
+            File arquivo = file.showSaveDialog(areaCodigo.getScene().getWindow());
+            if (arquivo == null) {
+                return;
             }
+            arquivo.createNewFile();
+            labelStatus.setText(arquivo.getAbsolutePath());
+            pastaParaCompilar = arquivo.getAbsolutePath();
+        }
     }
 
     public void copiar() {
@@ -86,6 +95,7 @@ public class InterfaceController {
 
     public void colar() {
         areaCodigo.paste();
+        adicionarLinhas();
     }
 
     public void recortar() {
@@ -156,7 +166,28 @@ public class InterfaceController {
         }
     }
 
+    public void chamarAcoesTela(KeyEvent keyEvent) throws IOException {
+        if (keyEvent.isControlDown()) {
+            if (keyEvent.getCode().equals(KeyCode.S)) {
+                salvarArquivo();
+            }
 
+            if (keyEvent.getCode().equals(KeyCode.N)) {
+                novoArquivo();
+            }
+
+            if (keyEvent.getCode().equals(KeyCode.O)) {
+                abrirArquivo();
+            }
+        } else {
+            if (keyEvent.getCode().equals(KeyCode.F7)) {
+                compilar();
+            }
+            if (keyEvent.getCode().equals(KeyCode.F1)) {
+                mostrarEquipe();
+            }
+        }
+    }
 
 
 
