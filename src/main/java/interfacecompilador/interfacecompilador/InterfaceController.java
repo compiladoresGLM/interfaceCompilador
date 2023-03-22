@@ -38,11 +38,6 @@ public class InterfaceController {
 
     private String pastaParaCompilar;
 
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
-
     public void initialize() {
         linhas.setText(String.valueOf(areaCodigo.getParagraphs().size()));
         labelLinhas.setVisible(false);
@@ -70,7 +65,6 @@ public class InterfaceController {
     }
 
     public void salvarArquivo() throws IOException {
-            file.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
             if (labelStatus.getText() != null && !labelStatus.getText().isEmpty()) {
                 FileWriter writer = new FileWriter(labelStatus.getText(), Charset.availableCharsets().get("UTF-8"), false);
                 writer.write(areaCodigo.getText());
