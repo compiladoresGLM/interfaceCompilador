@@ -17,9 +17,9 @@ public class InterfaceApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InterfaceApplication.class.getResource("interface.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1100, 700);
-        stage.minHeightProperty().set(700);
-        stage.minWidthProperty().set(1100);
+        Scene scene = new Scene(fxmlLoader.load(), 900, 600);
+        stage.minHeightProperty().set(600);
+        stage.minWidthProperty().set(900);
         stage.setTitle("Compilador");
         stage.setScene(scene);
         scene.getRoot().applyCss();
