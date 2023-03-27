@@ -1,5 +1,8 @@
 package interfacecompilador.interfacecompilador;
 
+import interfacecompilador.gals.LexicalError;
+import interfacecompilador.gals.Lexico;
+import interfacecompilador.gals.Token;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -7,9 +10,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -52,16 +53,16 @@ public class InterfaceController {
     }
 
     public void abrirArquivo() throws IOException {
-            File selectedFile = file.showOpenDialog(areaCodigo.getScene().getWindow());
-            if (selectedFile != null) {
-                String stringDoArquivo = Files.readString(selectedFile.toPath(), StandardCharsets.UTF_8);
-                areaCodigo.setText(stringDoArquivo);
-                labelStatus.setText(selectedFile.getAbsolutePath());
-                pastaParaCompilar = selectedFile.getAbsolutePath();
-                areaMensagem.setText("");
-                adicionarLinhas();
+        File selectedFile = file.showOpenDialog(areaCodigo.getScene().getWindow());
+        if (selectedFile != null) {
+            String stringDoArquivo = Files.readString(selectedFile.toPath(), StandardCharsets.UTF_8);
+            areaCodigo.setText(stringDoArquivo);
+            labelStatus.setText(selectedFile.getAbsolutePath());
+            pastaParaCompilar = selectedFile.getAbsolutePath();
+            areaMensagem.setText("");
+            adicionarLinhas();
 
-            }
+        }
     }
 
     public void salvarArquivo() throws IOException {
@@ -103,8 +104,45 @@ public class InterfaceController {
         removerLinhas();
     }
 
-    public void compilar() {
+    public void compilar() throws FileNotFoundException {
         areaMensagem.setText("Compilação de programas ainda não foi implementada");
+
+        String arquivoAtual = labelStatus.getText();
+
+        if (arquivoAtual.equals("")) {
+            areaMensagem.setText("Um arquivo deve ser selecionado para a compilação");
+            return;
+        }
+
+        Reader reader = new FileReader(arquivoAtual);
+
+        Lexico lexico = new Lexico();
+        lexico.setInput(reader);
+        try {
+            Token t = null;
+            while ((t = lexico.nextToken()) != null) {
+                System.out.println(t.getLexeme());
+
+                // só escreve o lexema, necessário escrever t.getId, t.getPosition()
+
+                // t.getId () - retorna o identificador da classe. Olhar Constants.java e adaptar, pois
+                // deve ser apresentada a classe por extenso
+                // t.getPosition () - retorna a posição inicial do lexema no editor, necessário adaptar
+                // para mostrar a linha
+
+                // esse código apresenta os tokens enquanto não ocorrer erro
+                // no entanto, os tokens devem ser apresentados SÓ se não ocorrer erro, necessário adaptar
+                // para atender o que foi solicitado  
+            }
+        } catch (LexicalError e) { // tratamento de erros
+            System.out.println(e.getMessage() + " em " + e.getPosition());
+
+            // e.getMessage() - retorna a mensagem de erro de SCANNER_ERRO (olhar ScannerConstants.java
+            // e adaptar conforme o enunciado da parte 2)
+            // e.getPosition() - retorna a posição inicial do erro, tem que adaptar para mostrar a
+            // linha  
+        }
+
     }
 
     public void mostrarEquipe() {
@@ -188,11 +226,6 @@ public class InterfaceController {
             }
         }
     }
-
-
-
-
-
 
 
 }
