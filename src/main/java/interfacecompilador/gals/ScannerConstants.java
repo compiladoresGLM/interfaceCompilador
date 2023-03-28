@@ -1388,23 +1388,23 @@ public interface ScannerConstants
         {57, 38}
     };
 
-    int[] TOKEN_STATE = {-1,  0, -1, -1,  7, 25, 26, 35, 33, 21, 34, 36,  3,  3, 22, 24, 29, 23, 31,  2,  2, -1, 28,  6, -1, -1, -1,  3, 30, 27, 32,  2,  2,  2, -1,  4,  5, -1,  3,  2, -1, -1,  8, -1 };
+    int[] TOKEN_STATE = {-2,  0, -1, -1,  0, 23, 24, 33, 31, 19, 32, 34,  3,  3, 20, 22, 27, 21, 29,  2,  2, -2, 26,  6, -1, -1, -1,  3, 28, 25, 30,  2,  2,  2, -2,  4,  5, -1,  3,  2, -2, -2,  0, -1 };
 
     int[] SPECIAL_CASES_INDEXES =
-        { 0, 0, 0, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 };
+        { 0, 0, 0, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 };
 
     String[] SPECIAL_CASES_KEYS =
         {  "and", "check", "else", "end", "false", "if", "not", "or", "read", "true", "write", "writeln" };
 
     int[] SPECIAL_CASES_VALUES =
-        {  10, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+        {  8, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 };
 
     String[] SCANNER_ERROR =
     {
         "Caractere não esperado",
         "",
         "Erro identificando \"!=\"",
-        "Erro identificando string",
+        "Erro identificando constante_string",
         "",
         "",
         "",
@@ -1422,11 +1422,11 @@ public interface ScannerConstants
         "",
         "",
         "",
-        "Erro identificando bloco",
+        "Erro identificando <ignorar>",
         "",
         "",
         "Erro identificando constante_float",
-        "Erro identificando binario",
+        "Erro identificando constante_binario",
         "Erro identificando constante_int ou constante_float",
         "",
         "",
@@ -1435,14 +1435,14 @@ public interface ScannerConstants
         "",
         "",
         "",
-        "Erro identificando bloco",
+        "Erro identificando <ignorar>",
         "",
         "",
         "Erro identificando constante_int ou constante_float",
         "",
         "",
-        "Erro identificando bloco",
-        "Erro identificando bloco",
+        "Erro identificando <ignorar>",
+        "Erro identificando <ignorar>",
         "",
         "Erro identificando constante_int ou constante_float"
     };

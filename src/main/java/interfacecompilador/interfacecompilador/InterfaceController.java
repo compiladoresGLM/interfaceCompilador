@@ -14,6 +14,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 public class InterfaceController {
@@ -38,6 +39,8 @@ public class InterfaceController {
     private static final FileChooser file = new FileChooser();
 
     private String pastaParaCompilar;
+
+    private ArrayList<Integer> listaQuebraLinhas = new ArrayList<Integer>();
 
     public void initialize() {
         linhas.setText(String.valueOf(areaCodigo.getParagraphs().size()));
@@ -109,20 +112,29 @@ public class InterfaceController {
 
         String arquivoAtual = labelStatus.getText();
 
-        if (arquivoAtual.equals("")) {
-            areaMensagem.setText("Um arquivo deve ser selecionado para a compilação");
-            return;
-        }
+        novaListaQuebraLinhas();
 
-        Reader reader = new FileReader(arquivoAtual);
+        Reader reader = new StringReader(areaCodigo.getText());
 
         Lexico lexico = new Lexico();
         lexico.setInput(reader);
         try {
+
+            String mensagem = "Linha   | Classe   | Lexema\n";
+
+            int linha = 0;
+            int charLinha = 0;
+
             Token t = null;
             while ((t = lexico.nextToken()) != null) {
-                System.out.println(t.getLexeme());
 
+                while (linha < listaQuebraLinhas.size() &&
+                        listaQuebraLinhas.get(linha) < t.getPosition()) {
+                    linha += 1;
+                }
+
+                mensagem += linha + 1 + " "
+                        + " " + buscarClasseToken(t.getId()) + " " + t.getLexeme() + "\n";
                 // só escreve o lexema, necessário escrever t.getId, t.getPosition()
 
                 // t.getId () - retorna o identificador da classe. Olhar Constants.java e adaptar, pois
@@ -134,6 +146,9 @@ public class InterfaceController {
                 // no entanto, os tokens devem ser apresentados SÓ se não ocorrer erro, necessário adaptar
                 // para atender o que foi solicitado  
             }
+
+            areaMensagem.setText((mensagem));
+
         } catch (LexicalError e) { // tratamento de erros
             System.out.println(e.getMessage() + " em " + e.getPosition());
 
@@ -225,6 +240,39 @@ public class InterfaceController {
                 mostrarEquipe();
             }
         }
+    }
+
+    public void novaListaQuebraLinhas() {
+
+        String text = areaCodigo.getText();
+
+        listaQuebraLinhas.clear();
+
+        for (int i=0; i<text.length(); i++) {
+            if ('\n' == text.charAt(i)) {
+                listaQuebraLinhas.add(i);
+            }
+        }
+    }
+
+    public String buscarClasseToken(Integer id) {
+
+        if (id == 2) {
+            return "identificador";
+        } else if (id == 3) {
+            return "constante_int";
+        } else if (id == 4) {
+            return "constante_float";
+        } else if (id == 5) {
+            return "constante_binario";
+        } else if (id == 6) {
+            return "constante_string";
+        } else if (id < 19) {
+            return "palavra reservada";
+        } else {
+            return "simbolo especial";
+        }
+
     }
 
 
