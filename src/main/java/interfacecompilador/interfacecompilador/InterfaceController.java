@@ -150,6 +150,14 @@ public class InterfaceController {
             areaMensagem.setText((mensagem));
 
         } catch (LexicalError e) { // tratamento de erros
+
+            areaMensagem.setText("Erro na linha " +
+                    getLinha(e.getPosition()) + " - "
+                    + (e.getMessage().contains("símbolo inválido")
+                    ? areaCodigo.getText().charAt(e.getPosition())
+                    : "")
+                    + " " + e.getMessage());
+
             System.out.println(e.getMessage() + " em " + e.getPosition());
 
             // e.getMessage() - retorna a mensagem de erro de SCANNER_ERRO (olhar ScannerConstants.java
@@ -158,6 +166,16 @@ public class InterfaceController {
             // linha  
         }
 
+    }
+
+    private String getLinha(int position) {
+        int linhasEncontradas = 0;
+        for (int i = 0; i < position; i++) {
+            if (areaCodigo.getText().charAt(i) == '\n') {
+                linhasEncontradas++;
+            }
+        }
+        return String.valueOf(linhasEncontradas + 1);
     }
 
     public void mostrarEquipe() {

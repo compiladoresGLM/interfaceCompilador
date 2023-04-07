@@ -1401,10 +1401,10 @@ public interface ScannerConstants
 
     String[] SCANNER_ERROR =
     {
-        "Caractere n�o esperado",
+        "símbolo inválido",
         "",
-        "Erro identificando \"!=\"",
-        "Erro identificando constante_string",
+        "comentário de bloco inválido ou não finalizado",
+        "constante_string inválida",
         "",
         "",
         "",
@@ -1425,8 +1425,8 @@ public interface ScannerConstants
         "Erro identificando <ignorar>",
         "",
         "",
-        "Erro identificando constante_float",
-        "Erro identificando constante_binario",
+        "constante_float inválida",
+        "constante_binario inválida",
         "Erro identificando constante_int ou constante_float",
         "",
         "",
