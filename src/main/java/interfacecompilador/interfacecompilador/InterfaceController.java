@@ -108,8 +108,6 @@ public class InterfaceController {
     }
 
     public void compilar() throws FileNotFoundException {
-        areaMensagem.setText("Compilação de programas ainda não foi implementada");
-
         String arquivoAtual = labelStatus.getText();
 
         novaListaQuebraLinhas();
