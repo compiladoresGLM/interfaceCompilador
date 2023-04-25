@@ -1,5 +1,3 @@
-package interfacecompilador.gals;
-
 public interface ScannerConstants
 {
     int[] SCANNER_TABLE_INDEXES = 
@@ -1401,12 +1399,10 @@ public interface ScannerConstants
 
     String[] SCANNER_ERROR =
     {
-        "símbolo inválido",
+        "Caractere n�o esperado",
         "",
-        "comentário de bloco inválido ou não finalizado",
-        "constante_string inválida",
-        "",
-        "",
+        "Erro identificando \"!=\"",
+        "Erro identificando string",
         "",
         "",
         "",
@@ -1422,11 +1418,13 @@ public interface ScannerConstants
         "",
         "",
         "",
-        "comentário de bloco inválido ou não finalizado",
         "",
         "",
-        "constante_float inválida",
-        "constante_binario inválida",
+        "Erro identificando <ignorar>",
+        "",
+        "",
+        "Erro identificando constante_float",
+        "Erro identificando binario",
         "Erro identificando constante_int ou constante_float",
         "",
         "",

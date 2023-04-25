@@ -1,6 +1,4 @@
-package interfacecompilador.gals;
-
-public interface Constants extends ScannerConstants
+public interface Constants extends ScannerConstants, ParserConstants
 {
     int EPSILON  = 0;
     int DOLLAR   = 1;
@@ -8,8 +6,8 @@ public interface Constants extends ScannerConstants
     int t_identificador = 2;
     int t_constante_int = 3;
     int t_constante_float = 4;
-    int t_constante_binario = 5;
-    int t_constante_string = 6;
+    int t_binario = 5;
+    int t_string = 6;
     int t_check = 7;
     int t_and = 8;
     int t_else = 9;

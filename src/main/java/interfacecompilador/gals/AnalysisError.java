@@ -1,5 +1,3 @@
-package interfacecompilador.gals;
-
 public class AnalysisError extends Exception
 {
     private int position;

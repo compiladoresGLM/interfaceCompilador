@@ -1,5 +1,3 @@
-package interfacecompilador.gals;
-
 public class Token
 {
     private int id;

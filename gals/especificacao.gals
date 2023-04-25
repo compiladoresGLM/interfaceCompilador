@@ -1,11 +1,14 @@
 #Options
 GenerateScanner = true
-GenerateParser = false
+GenerateParser = true
 Language = Java
 ScannerName = Lexico
+ParserName = Sintatico
+SemanticName = Semantico
 ScannerCaseSensitive = true
 ScannerTable = Compact
-Input = Stream
+Input = String
+Parser = LL
 #RegularDefinitions
 digito: [0-9]
 min: [a-z]
@@ -36,10 +39,10 @@ binario: 0(b|B)(0|1)+
 string: \"[^\n\"\\]*\"
 
 //F
-linha: #[^\n]*
+:! #[^\n]*
 
 //G
-bloco: (\{\n) [^\{\}]* (\n\}) | (\{\n\})
+:! (\{\n) [^\{\}]* (\n\}) | (\{\n\})
 
 
 //constante_int - faz de todas 
@@ -84,4 +87,82 @@ writeln = identificador: "writeln"
 // comentarios 
 :! # [^\n]*
 
+
+#NonTerminals
+<lista_de_comandos>
+<lista_de_comandos_1> 
+<comando>
+<comando_atribuicao>
+<comando_atribuicao_1> 	
+<comando_entrada_dados>
+<comando_saida_dados>
+<comando_selecao> 
+<comando_selecao_1>
+<comando_repeticao>
+<comando_repeticao_1>
+<lista_expressoes>
+<lista_expressoes_1>
+<lista_identificadores>
+<lista_identificadores_1>
+<expressao>
+<expressao_>	
+<elemento>
+<relacional>
+<relacional_>	
+<operador_relacional>
+<aritmetica>	
+<aritmetica_>
+<termo>		
+<termo_>
+<fator>
+#Grammar
+<lista_de_comandos> 	::= <comando> ";" <lista_de_comandos_1> ;
+<lista_de_comandos_1> 	::= î |  <lista_de_comandos> ;
+
+
+<comando> 		::= <comando_atribuicao> | <comando_entrada_dados> | <comando_saida_dados> |<comando_selecao> | <comando_repeticao> ;
+
+<comando_atribuicao> 	::= <lista_identificadores> "=" <expressao> <comando_atribuicao_1> ;
+<comando_atribuicao_1> 	::= ":" if <expressao> | î ;
+
+<comando_entrada_dados> 	::= read "(" <lista_identificadores> ")" ;
+ 
+<comando_saida_dados> 	::= write "(" <lista_expressoes> ")" |
+		        	writeln "(" <lista_expressoes> ")" ;
+
+<comando_selecao>   	::= if "(" <expressao> ")" <lista_de_comandos> <comando_selecao_1> ;
+<comando_selecao_1> 	::= end | else <lista_de_comandos> end ;
+
+<comando_repeticao> 	::= check "(" <expressao> ")" ":" if <comando_repeticao_1> ;
+<comando_repeticao_1>	::= true <lista_de_comandos> end | false <lista_de_comandos> end ;
+
+<lista_expressoes> 	::= <expressao> <lista_expressoes_1> ;
+<lista_expressoes_1>	::= î | "," <lista_expressoes> ;
+
+<lista_identificadores> 	::= identificador <lista_identificadores_1> ;
+<lista_identificadores_1> 	::= î | "," <lista_identificadores> ;
+
+
+<expressao>			::= <elemento> <expressao_>  ;
+<expressao_>			::= î | and <elemento> <expressao_> | or <elemento> <expressao_> ;
+<elemento>			::= <relacional> | true | false | not <elemento> ;
+
+<relacional>			::= <aritmetica> <relacional_> ;
+<relacional_>			::= î | <operador_relacional> <aritmetica> ;
+<operador_relacional>		::= "==" | "!=" | "<" | "<=" | ">" | ">=" ;
+
+<aritmetica>			::= <termo> <aritmetica_>  ;
+<aritmetica_>			::= î | "+" <termo> <aritmetica_> | "-" <termo> <aritmetica_> ;
+
+<termo>				::= <fator> <termo_> ;
+<termo_>			::= î | "*" <fator> <termo_> | "/" <fator> <termo_> ;
+
+<fator>			::= identificador | 
+			    	    constante_int | 
+		   	    	    constante_float | 
+			    	    binario |
+			    	    string | 
+		   	    	    "(" <expressao> ")" |
+	    	  	    	    "+" <fator> | 
+	    		    	    "-" <fator> ;
 
