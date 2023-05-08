@@ -1,5 +1,8 @@
 package interfacecompilador;
 
+import interfacecompilador.gals.LexicalError;
+import interfacecompilador.gals.Lexico;
+import interfacecompilador.gals.Token;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -7,12 +10,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 public class InterfaceController {
@@ -38,6 +40,8 @@ public class InterfaceController {
 
     private String pastaParaCompilar;
 
+    private ArrayList<Integer> listaQuebraLinhas = new ArrayList<Integer>();
+
     public void initialize() {
         linhas.setText(String.valueOf(areaCodigo.getParagraphs().size()));
         labelLinhas.setVisible(false);
@@ -52,16 +56,16 @@ public class InterfaceController {
     }
 
     public void abrirArquivo() throws IOException {
-            File selectedFile = file.showOpenDialog(areaCodigo.getScene().getWindow());
-            if (selectedFile != null) {
-                String stringDoArquivo = Files.readString(selectedFile.toPath(), StandardCharsets.UTF_8);
-                areaCodigo.setText(stringDoArquivo);
-                labelStatus.setText(selectedFile.getAbsolutePath());
-                pastaParaCompilar = selectedFile.getAbsolutePath();
-                areaMensagem.setText("");
-                adicionarLinhas();
+        File selectedFile = file.showOpenDialog(areaCodigo.getScene().getWindow());
+        if (selectedFile != null) {
+            String stringDoArquivo = Files.readString(selectedFile.toPath(), StandardCharsets.UTF_8);
+            areaCodigo.setText(stringDoArquivo);
+            labelStatus.setText(selectedFile.getAbsolutePath());
+            pastaParaCompilar = selectedFile.getAbsolutePath();
+            areaMensagem.setText("");
+            adicionarLinhas();
 
-            }
+        }
     }
 
     public void salvarArquivo() throws IOException {
@@ -103,8 +107,73 @@ public class InterfaceController {
         removerLinhas();
     }
 
-    public void compilar() {
-        areaMensagem.setText("Compilação de programas ainda não foi implementada");
+    public void compilar() throws FileNotFoundException {
+        String arquivoAtual = labelStatus.getText();
+
+        novaListaQuebraLinhas();
+
+        Reader reader = new StringReader(areaCodigo.getText());
+
+        Lexico lexico = new Lexico();
+        lexico.setInput(String.valueOf(reader));
+        try {
+
+            String mensagem = "Linha   | Classe   | Lexema\n";
+
+            int linha = 0;
+            int charLinha = 0;
+
+            Token t = null;
+            while ((t = lexico.nextToken()) != null) {
+
+                while (linha < listaQuebraLinhas.size() &&
+                        listaQuebraLinhas.get(linha) < t.getPosition()) {
+                    linha += 1;
+                }
+
+                mensagem += linha + 1 + " "
+                        + " " + buscarClasseToken(t.getId()) + " " + t.getLexeme() + "\n";
+                // só escreve o lexema, necessário escrever t.getId, t.getPosition()
+
+                // t.getId () - retorna o identificador da classe. Olhar Constants.java e adaptar, pois
+                // deve ser apresentada a classe por extenso
+                // t.getPosition () - retorna a posição inicial do lexema no editor, necessário adaptar
+                // para mostrar a linha
+
+                // esse código apresenta os tokens enquanto não ocorrer erro
+                // no entanto, os tokens devem ser apresentados SÓ se não ocorrer erro, necessário adaptar
+                // para atender o que foi solicitado  
+            }
+
+            areaMensagem.setText((mensagem));
+
+        } catch (LexicalError e) { // tratamento de erros
+
+            areaMensagem.setText("Erro na linha " +
+                    getLinha(e.getPosition()) + " - "
+                    + (e.getMessage().contains("símbolo inválido")
+                    ? areaCodigo.getText().charAt(e.getPosition())
+                    : "")
+                    + " " + e.getMessage());
+
+            System.out.println(e.getMessage() + " em " + e.getPosition());
+
+            // e.getMessage() - retorna a mensagem de erro de SCANNER_ERRO (olhar ScannerConstants.java
+            // e adaptar conforme o enunciado da parte 2)
+            // e.getPosition() - retorna a posição inicial do erro, tem que adaptar para mostrar a
+            // linha  
+        }
+
+    }
+
+    private String getLinha(int position) {
+        int linhasEncontradas = 0;
+        for (int i = 0; i < position; i++) {
+            if (areaCodigo.getText().charAt(i) == '\n') {
+                linhasEncontradas++;
+            }
+        }
+        return String.valueOf(linhasEncontradas + 1);
     }
 
     public void mostrarEquipe() {
@@ -189,10 +258,38 @@ public class InterfaceController {
         }
     }
 
+    public void novaListaQuebraLinhas() {
 
+        String text = areaCodigo.getText();
 
+        listaQuebraLinhas.clear();
 
+        for (int i=0; i<text.length(); i++) {
+            if ('\n' == text.charAt(i)) {
+                listaQuebraLinhas.add(i);
+            }
+        }
+    }
 
+    public String buscarClasseToken(Integer id) {
+
+        if (id == 2) {
+            return "identificador";
+        } else if (id == 3) {
+            return "constante_int";
+        } else if (id == 4) {
+            return "constante_float";
+        } else if (id == 5) {
+            return "constante_binario";
+        } else if (id == 6) {
+            return "constante_string";
+        } else if (id < 19) {
+            return "palavra reservada";
+        } else {
+            return "simbolo especial";
+        }
+
+    }
 
 
 }

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="700.0" minWidth="1100.0" onKeyPressed="#chamarAcoesTela" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacecompilador.interfacecompilador.InterfaceController">
+<AnchorPane minHeight="700.0" minWidth="1100.0" onKeyPressed="#chamarAcoesTela" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfacecompilador.InterfaceController">
    <children>
       <SplitPane dividerPositions="0.5" layoutX="156.0" layoutY="69.0" orientation="VERTICAL" prefHeight="582.0" prefWidth="927.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>

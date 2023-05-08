@@ -3,6 +3,6 @@ module interfacecompilador.interfacecompilador {
     requires javafx.fxml;
 
 
-    opens interfacecompilador.interfacecompilador to javafx.fxml;
-    exports interfacecompilador.interfacecompilador;
+    opens interfacecompilador to javafx.fxml;
+    exports interfacecompilador;
 }
