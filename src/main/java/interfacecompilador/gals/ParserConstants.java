@@ -103,65 +103,65 @@ public interface ParserConstants
     String[] PARSER_ERROR =
     {
         "",
-        "Era esperado fim de programa",
-        "Era esperado identificador",
-        "Era esperado constante_int",
-        "Era esperado constante_float",
-        "Era esperado binario",
-        "Era esperado string",
-        "Era esperado check",
-        "Era esperado and",
-        "Era esperado else",
-        "Era esperado end",
-        "Era esperado false",
-        "Era esperado if",
-        "Era esperado not",
-        "Era esperado or",
-        "Era esperado read",
-        "Era esperado true",
-        "Era esperado write",
-        "Era esperado writeln",
-        "Era esperado \",\"",
-        "Era esperado \":\"",
-        "Era esperado \"=\"",
-        "Era esperado \";\"",
-        "Era esperado \"(\"",
-        "Era esperado \")\"",
-        "Era esperado \"==\"",
-        "Era esperado \"!=\"",
-        "Era esperado \"<\"",
-        "Era esperado \"<=\"",
-        "Era esperado \">\"",
-        "Era esperado \">=\"",
-        "Era esperado \"+\"",
-        "Era esperado \"-\"",
-        "Era esperado \"*\"",
-        "Era esperado \"/\"",
-        "<lista_de_comandos> inv�lido",
-        "<lista_de_comandos_1> inv�lido",
-        "<comando> inv�lido",
-        "<comando_atribuicao> inv�lido",
-        "<comando_atribuicao_1> inv�lido",
-        "<comando_entrada_dados> inv�lido",
-        "<comando_saida_dados> inv�lido",
-        "<comando_selecao> inv�lido",
-        "<comando_selecao_1> inv�lido",
-        "<comando_repeticao> inv�lido",
-        "<comando_repeticao_1> inv�lido",
-        "<lista_expressoes> inv�lido",
-        "<lista_expressoes_1> inv�lido",
-        "<lista_identificadores> inv�lido",
-        "<lista_identificadores_1> inv�lido",
-        "<expressao> inv�lido",
-        "<expressao_> inv�lido",
-        "<elemento> inv�lido",
-        "<relacional> inv�lido",
-        "<relacional_> inv�lido",
-        "<operador_relacional> inv�lido",
-        "<aritmetica> inv�lido",
-        "<aritmetica_> inv�lido",
-        "<termo> inv�lido",
-        "<termo_> inv�lido",
-        "<fator> inv�lido"
+        "esperado EOF",
+        "esperado identificador",
+        "esperado constante_int",
+        "esperado constante_float",
+        "esperado binario",
+        "esperado string",
+        "esperado check",
+        "esperado and",
+        "esperado else",
+        "esperado end",
+        "esperado false",
+        "esperado if",
+        "esperado not",
+        "esperado or",
+        "esperado read",
+        "esperado true",
+        "esperado write",
+        "esperado writeln",
+        "esperado ,",
+        "esperado :",
+        "esperado =",
+        "esperado ;",
+        "esperado (",
+        "esperado )",
+        "esperado ==",
+        "esperado !=",
+        "esperado <",
+        "esperado <=",
+        "esperado >",
+        "esperado >=",
+        "esperado +",
+        "esperado -",
+        "esperado *",
+        "esperado /",
+        "esperado identificador check if read write writeln", //<lista_de_comandos> inválido
+        "esperado EOF identificador check else and if read write writeln", // <lista_de_comandos_1> inválido"
+        "esperadoidentificador check if read write writeln",//<comando> inválido"
+        "esperado identificador",//<comando_atribuicao> inválido"
+        "esperado : ;",//<comando_atribuicao_1> inválido"
+        "esperado read",//<comando_entrada_dados> inválido"
+        "esperado write writeln",//<comando_saida_dados> inválido"
+        "esperado if",//<comando_selecao> inválido"
+        "esperado else and",//<comando_selecao_1> inválido"
+        "esperado check",//<comando_repeticao> inválido"
+        "esperado false true",//<comando_repeticao_1> inválido"
+        "esperado identificador constante_int constante_float binario string false not true ( + -",//<lista_expressoes> invlido"
+        "esperado , )",//<lista_expressoes_1> inv�lido"
+        "esperado identificador",//<lista_identificadores> inválido"
+        "esperado , = )",//<lista_identificadores_1> inválido"
+        "esperado identificador constante_int constante_float binario string false not true ( + -",//<expressao> inválido"
+        "esperado and or , : ; )",//<expressao_> inválido"
+        "esperado identificador contante_int constante_float binario string false not true ( + -",//<elemento> inválido"
+        "esperado identificador constante_int constante_float binario string ( + -",//<relacional> inválido"
+        "esperado and or , : ; ) == != < <= > >=",//<relacional_> inválido"
+        "esperado == != < <= > >=",//<operador_relacional> inválido"
+        "esperado identificador constante_int constante_float binario string ( + -",//<aritmetica> inválido"
+        "esperado and or , : ; ( ) == != < <= > >= + -",//<aritmetica_> inválido"
+        "identificador constante_int constante_float binario string ( + -",//<termo> inválido"
+        "esperado and or , : ; ) == != < <= > >= + - * /",//<termo_> inválido"
+        "esperado identificador constante_int constante_float binario string ( + - ",//<fator> inválido"
     };
 }
