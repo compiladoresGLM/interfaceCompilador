@@ -129,11 +129,12 @@ public class InterfaceController {
         catch ( LexicalError e )
         {
             System.out.println(e);
-            areaMensagem.setText("Erro léxico - Linha " + getLinha(e.getPosition()) + " - " + e.getMessage());
+            areaMensagem.setText("Erro na linha " + getLinha(e.getPosition()) + " - " + e.getMessage());
         }
         catch ( SyntaticError e ) {
 
-            areaMensagem.setText("Erro sintático - Linha " + getLinha(e.getPosition()) + " - " + e.getMessage());
+            areaMensagem.setText("Erro na linha " + getLinha(e.getPosition()) +
+                    " - Encontrado " + areaCodigo.getText().charAt(e.getPosition()) + " " + e.getMessage());
 
             System.out.println(e.getPosition() + " símbolo encontrado: na entrada ");
 

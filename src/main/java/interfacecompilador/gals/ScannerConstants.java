@@ -1404,7 +1404,7 @@ public interface ScannerConstants
         "Caractere não esperado",
         "",
         "Erro identificando \"!=\"",
-        "Erro identificando string",
+        "constante_string inválida",
         "",
         "",
         "",
