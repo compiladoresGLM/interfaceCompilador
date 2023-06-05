@@ -126,15 +126,23 @@ public class InterfaceController {
         }
         // mensagem: programa compilado com sucesso - área reservada para mensagens
 
-        catch ( LexicalError e )
-        {
+        catch ( LexicalError e ) {
             System.out.println(e);
-            areaMensagem.setText("Erro na linha " + getLinha(e.getPosition()) + " - " + e.getMessage());
+
+            if ("simbolo inválido".equals(e.getMessage())) {
+                areaMensagem.setText("Erro na linha " + getLinha(e.getPosition()) +
+                        " - " + areaCodigo.getText().charAt(e.getPosition()) + " " + e.getMessage());
+            } else {
+                areaMensagem.setText("Erro na linha " + getLinha(e.getPosition()) + " - " + e.getMessage());
+            }
+
         }
         catch ( SyntaticError e ) {
 
+            Token tokenAtual = sintatico.getCurrentToken();
+
             areaMensagem.setText("Erro na linha " + getLinha(e.getPosition()) +
-                    " - Encontrado " + areaCodigo.getText().charAt(e.getPosition()) + " " + e.getMessage());
+                    " - Encontrado " + parseEOF(tokenAtual.getLexeme()) + " " + e.getMessage());
 
             System.out.println(e.getPosition() + " símbolo encontrado: na entrada ");
 
@@ -255,6 +263,28 @@ public class InterfaceController {
                 listaQuebraLinhas.add(i);
             }
         }
+    }
+
+    private String parseEOF(String lexema) {
+        return lexema == "$" ? "EOF" : lexema;
+    }
+
+    public String getLexema(int position) {
+
+        String codigo = areaCodigo.getText();
+
+        String lexema = "";
+
+        try {
+            do {
+                lexema += codigo.charAt(position);
+                position ++;
+            } while ('\n' != codigo.charAt(position) && ' ' != codigo.charAt(position));
+
+        } catch (IndexOutOfBoundsException e) {}
+
+
+        return lexema;
     }
 
     public String buscarClasseToken(Integer id) {

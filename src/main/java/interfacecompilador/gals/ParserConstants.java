@@ -107,8 +107,8 @@ public interface ParserConstants {
                     "esperado identificador",
                     "esperado constante_int",
                     "esperado constante_float",
-                    "esperado binario",
-                    "esperado string",
+                    "esperado constante_binaria",
+                    "esperado constante_string",
                     "esperado check",
                     "esperado and",
                     "esperado else",
@@ -138,30 +138,30 @@ public interface ParserConstants {
                     "esperado *",
                     "esperado /",
                     "esperado identificador check if read write writeln", //<lista_de_comandos> inválido
-                    "esperado EOF identificador check else and if read write writeln", // <lista_de_comandos_1> inválido"
+                    "esperado EOF identificador check else end if read write writeln", // <lista_de_comandos_1> inválido"
                     "esperado identificador check if read write writeln",//<comando> inválido"
                     "esperado identificador",//<comando_atribuicao> inválido"
                     "esperado : ;",//<comando_atribuicao_1> inválido"
                     "esperado read",//<comando_entrada_dados> inválido"
                     "esperado write writeln",//<comando_saida_dados> inválido"
                     "esperado if",//<comando_selecao> inválido"
-                    "esperado else and",//<comando_selecao_1> inválido"
+                    "esperado else end",//<comando_selecao_1> inválido"
                     "esperado check",//<comando_repeticao> inválido"
                     "esperado false true",//<comando_repeticao_1> inválido"
                     "esperado expressão",//<lista_expressoes> invlido"
                     "esperado , )",//<lista_expressoes_1> inv�lido"
                     "esperado identificador",//<lista_identificadores> inválido"
                     "esperado , = )",//<lista_identificadores_1> inválido"
-                    "esperado identificador constante_int constante_float binario string false not true ( + -",//<expressao> inválido"
-                    "esperado expressao",//<expressao_> inválido"
-                    "esperado identificador contante_int constante_float binario string false not true ( + -",//<elemento> inválido"
-                    "esperado identificador constante_int constante_float binario string ( + -",//<relacional> inválido"
-                    "esperado and or , : ; ) == != < <= > >=",//<relacional_> inválido"
+                    "esperado expressão",//<expressao> inválido"
+                    "esperado expressão",//<expressao_> inválido"
+                    "esperado expressão",//<elemento> inválido"
+                    "esperado expressão",//<relacional> inválido"
+                    "esperado expressão",//<relacional_> inválido"
                     "esperado == != < <= > >=",//<operador_relacional> inválido"
-                    "esperado identificador constante_int constante_float binario string ( + -",//<aritmetica> inválido"
+                    "esperado expressão",//<aritmetica> inválido"
                     "esperado expressão",//<aritmetica_> inválido"
-                    "identificador constante_int constante_float binario string ( + -",//<termo> inválido"
-                    "esperado and or , : ; ) == != < <= > >= + - * /",//<termo_> inválido"
-                    "esperado identificador constante_int constante_float binario string ( + - ",//<fator> inválido"
+                    "esperado expressão",//<termo> inválido"
+                    "esperado expressão",//<termo_> inválido"
+                    "esperado expressão",//<fator> inválido"
             };
 }
