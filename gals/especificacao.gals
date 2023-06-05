@@ -7,7 +7,7 @@ ParserName = Sintatico
 SemanticName = Semantico
 ScannerCaseSensitive = true
 ScannerTable = Compact
-Input = String
+Input = Stream
 Parser = LL
 #RegularDefinitions
 digito: [0-9]
@@ -89,6 +89,7 @@ writeln = identificador: "writeln"
 
 
 #NonTerminals
+<programa>
 <lista_de_comandos>
 <lista_de_comandos_1> 
 <comando>
@@ -116,9 +117,10 @@ writeln = identificador: "writeln"
 <termo_>
 <fator>
 #Grammar
-<lista_de_comandos> 	::= <comando> ";" <lista_de_comandos_1> ;
-<lista_de_comandos_1> 	::= î |  <lista_de_comandos> ;
+<programa>		::= #15 <lista_de_comandos> #16;
 
+<lista_de_comandos> 	::= <comando> ";" <lista_de_comandos_1> ;
+<lista_de_comandos_1> 	::= î |  <lista_de_comandos>;
 
 <comando> 		::= <comando_atribuicao> | <comando_entrada_dados> | <comando_saida_dados> |<comando_selecao> | <comando_repeticao> ;
 
@@ -128,7 +130,7 @@ writeln = identificador: "writeln"
 <comando_entrada_dados> 	::= read "(" <lista_identificadores> ")" ;
  
 <comando_saida_dados> 	::= write "(" <lista_expressoes> ")" |
-		        	writeln "(" <lista_expressoes> ")" ;
+		        	writeln "(" <lista_expressoes> ")" #17;
 
 <comando_selecao>   	::= if "(" <expressao> ")" <lista_de_comandos> <comando_selecao_1> ;
 <comando_selecao_1> 	::= end | else <lista_de_comandos> end ;
@@ -144,25 +146,25 @@ writeln = identificador: "writeln"
 
 
 <expressao>			::= <elemento> <expressao_>  ;
-<expressao_>			::= î | and <elemento> <expressao_> | or <elemento> <expressao_> ;
-<elemento>			::= <relacional> | true | false | not <elemento> ;
+<expressao_>			::= î | and <elemento> #18 <expressao_> | or <elemento> #19 <expressao_> ;
+<elemento>			::= <relacional> | true #11 | false #12 | not <elemento> #13;
 
 <relacional>			::= <aritmetica> <relacional_> ;
-<relacional_>			::= î | <operador_relacional> <aritmetica> ;
+<relacional_>			::= î | <operador_relacional> #9 <aritmetica> #10;
 <operador_relacional>		::= "==" | "!=" | "<" | "<=" | ">" | ">=" ;
 
 <aritmetica>			::= <termo> <aritmetica_>  ;
-<aritmetica_>			::= î | "+" <termo> <aritmetica_> | "-" <termo> <aritmetica_> ;
+<aritmetica_>			::= î | "+" <termo> #1 <aritmetica_> | "-" <termo> #2 <aritmetica_> ;
 
 <termo>				::= <fator> <termo_> ;
-<termo_>			::= î | "*" <fator> <termo_> | "/" <fator> <termo_> ;
+<termo_>			::= î | "*" <fator> #3 <termo_> | "/" <fator> #4 <termo_> ;
 
-<fator>			::= identificador | 
-			    	    constante_int | 
-		   	    	    constante_float | 
-			    	    binario |
-			    	    string | 
-		   	    	    "(" <expressao> ")" |
-	    	  	    	    "+" <fator> | 
-	    		    	    "-" <fator> ;
+<fator>			::= identificador       |
+			    constante_int   #5  | 
+		   	    constante_float #6  | 
+			    binario             |
+			    string          #20 | 
+		   	    "(" <expressao> ")" |
+	    	  	    "+" <fator>         | 
+	    		    "-" <fator> 	  #8;
 
