@@ -1,5 +1,6 @@
 package interfacecompilador.gals;
 
+import java.io.IOException;
 import java.util.Stack;
 
 public class Sintatico implements Constants
@@ -25,8 +26,7 @@ public class Sintatico implements Constants
         return x >= FIRST_SEMANTIC_ACTION;
     }
 
-    private boolean step() throws LexicalError, SyntaticError, SemanticError
-    {
+    private boolean step() throws LexicalError, SyntaticError, SemanticError, IOException {
         if (currentToken == null)
         {
             int pos = 0;
@@ -92,8 +92,7 @@ public class Sintatico implements Constants
             return false;
     }
 
-    public void parse(Lexico scanner, Semantico semanticAnalyser) throws LexicalError, SyntaticError, SemanticError
-    {
+    public void parse(Lexico scanner, Semantico semanticAnalyser) throws LexicalError, SyntaticError, SemanticError, IOException {
         this.scanner = scanner;
         this.semanticAnalyser = semanticAnalyser;
 

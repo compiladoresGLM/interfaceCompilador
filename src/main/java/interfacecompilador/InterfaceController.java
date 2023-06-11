@@ -154,6 +154,8 @@ public class InterfaceController {
         catch ( SemanticError e )
         {
             //Trata erros semânticos
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
     }
