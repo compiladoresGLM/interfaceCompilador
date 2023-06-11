@@ -18,6 +18,15 @@ public class Semantico implements Constants
     public void executeAction(int action, Token token) throws SemanticError, IOException {
         System.out.println("Ação #"+action+", Token: "+token);
         switch (action) {
+            case 1:
+                acao1();
+                break;
+            case 2:
+                acao2();
+                break;
+            case 3:
+                acao3();
+                break;
            case 9:
                acao9(token);
                break;
@@ -26,6 +35,9 @@ public class Semantico implements Constants
                break;
            case 12:
                 acao12();
+                break;
+            case 13:
+                acao13();
                 break;
            case 14:
                 acao14();
@@ -39,6 +51,11 @@ public class Semantico implements Constants
            case 17:
                 acao17();
                 break;
+            case 18:
+                acao18();
+                break;
+            case 19:
+                acao19();
            case 20:
                 acao20();
                 break;
@@ -72,14 +89,14 @@ public class Semantico implements Constants
             throw new SemanticError("tipo(s) incompatível(is) na expressão lógica");
         }
     }
-    private void acionaToken1() throws SemanticError{
+    private void acao1() throws SemanticError{
         String tipo1 = pilha.pop();
         String tipo2 = pilha.pop();
         validaTiposAritimeticos(tipo1,tipo2);
         addAritimeticos(tipo1,tipo2);
         sJoiner.add("add");
     }
-    private void acionaToken2() throws SemanticError {
+    private void acao2() throws SemanticError {
         String tipo1 = pilha.pop();
         String tipo2 = pilha.pop();
         validaTiposAritimeticos(tipo1, tipo2);
@@ -87,20 +104,20 @@ public class Semantico implements Constants
         sJoiner.add("sub");
     }
 
-    private void acionaToken3() throws SemanticError {
+    private void acao3() throws SemanticError {
         String tipo1 = pilha.pop();
         String tipo2 = pilha.pop();
         validaTiposAritimeticos(tipo1, tipo2);
         addAritimeticos(tipo1, tipo2);
         sJoiner.add("mul");
     }
-    private void acionaToken13() throws SemanticError{
+    private void acao13() throws SemanticError{
         String tipo = pilha.pop();
         isBool(tipo);
         sJoiner.add("ldc.i4.1");
         sJoiner.add("xor");
     }
-    private void acionaToken18() throws SemanticError {
+    private void acao18() throws SemanticError {
         String tipo1 = pilha.pop();
         String tipo2 = pilha.pop();
         validaTiposLogicos(tipo1, tipo2);
@@ -108,7 +125,7 @@ public class Semantico implements Constants
         sJoiner.add("and");
     }
 
-    private void acionaToken19() throws SemanticError {
+    private void acao19() throws SemanticError {
         String tipo1 = pilha.pop();
         String tipo2 = pilha.pop();
         validaTiposLogicos(tipo1, tipo2);
