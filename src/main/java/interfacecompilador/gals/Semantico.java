@@ -14,6 +14,10 @@ public class Semantico implements Constants {
     private String operador;
     private String pathToCompile;
 
+    public void setPathToCompile(String path) {
+        pathToCompile = path;
+    }
+
     public void executeAction(int action, Token token) throws SemanticError, IOException {
         System.out.println("Ação #" + action + ", Token: " + token);
         switch (action) {
@@ -71,7 +75,7 @@ public class Semantico implements Constants {
             case 19:
                 acao19();
             case 20:
-                acao20();
+                acao20(token);
                 break;
         }
 
@@ -242,7 +246,7 @@ public class Semantico implements Constants {
         sJoiner.add("}");
         sJoiner.add("}");
 
-        pathToCompile = pathToCompile.replace(".txt", ".il");
+            pathToCompile = pathToCompile.replace(".txt", ".il");
 
         FileWriter writer = new FileWriter(pathToCompile, StandardCharsets.UTF_8, false);
         writer.write(sJoiner.toString());
@@ -271,38 +275,42 @@ public class Semantico implements Constants {
         sJoiner.add("or");
     }
 
-    private void acao20() throws SemanticError {
-        String tipo1 = pilha.pop();
-        String tipo2 = pilha.pop();
-        if (!tipo1.equals("int64") || !tipo2.equals("int64")) {
-            throw new SemanticError("Tipo incompatível em expressão aritmética");
-        }
-        addAritimeticos(tipo1, tipo2);
-
-        sJoiner.add("conv.i8");
-        sJoiner.add("stloc divisor");
-
-        sJoiner.add("conv.i8");
-        sJoiner.add("stloc dividendo");
-
-        sJoiner.add("ldloc dividendo");
-        sJoiner.add("conv.r8");
-
-        sJoiner.add("ldloc dividendo");
-        sJoiner.add("conv.r8");
-
-        sJoiner.add("ldloc divisor");
-        sJoiner.add("conv.r8");
-
-        sJoiner.add("div");
-        sJoiner.add("conv.i8");
-        sJoiner.add("conv.r8");
-
-        sJoiner.add("ldloc divisor");
-        sJoiner.add("conv.r8");
-
-        sJoiner.add("mul");
-        sJoiner.add("sub");
+    private void acao20(Token token) {
+        pilha.push("string");
+        sJoiner.add("ldstr".concat(token.getLexeme()));
     }
+//    private void acao20() throws SemanticError {
+//        String tipo1 = pilha.pop();
+//        String tipo2 = pilha.pop();
+//        if (!tipo1.equals("int64") || !tipo2.equals("int64")) {
+//            throw new SemanticError("Tipo incompatível em expressão aritmética");
+//        }
+//        addAritimeticos(tipo1, tipo2);
+//
+//        sJoiner.add("conv.i8");
+//        sJoiner.add("stloc divisor");
+//
+//        sJoiner.add("conv.i8");
+//        sJoiner.add("stloc dividendo");
+//
+//        sJoiner.add("ldloc dividendo");
+//        sJoiner.add("conv.r8");
+//
+//        sJoiner.add("ldloc dividendo");
+//        sJoiner.add("conv.r8");
+//
+//        sJoiner.add("ldloc divisor");
+//        sJoiner.add("conv.r8");
+//
+//        sJoiner.add("div");
+//        sJoiner.add("conv.i8");
+//        sJoiner.add("conv.r8");
+//
+//        sJoiner.add("ldloc divisor");
+//        sJoiner.add("conv.r8");
+//
+//        sJoiner.add("mul");
+//        sJoiner.add("sub");
+//    }
 
 }

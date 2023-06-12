@@ -62,7 +62,6 @@ public class InterfaceController {
             pastaParaCompilar = selectedFile.getAbsolutePath();
             areaMensagem.setText("");
             adicionarLinhas();
-
         }
     }
 
@@ -119,6 +118,7 @@ public class InterfaceController {
         Sintatico sintatico = new Sintatico();
         Semantico semantico = new Semantico();
 
+        semantico.setPathToCompile(arquivoAtual);
 
         try {
             sintatico.parse(lexico, semantico);
