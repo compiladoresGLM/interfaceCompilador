@@ -81,7 +81,7 @@ writeln = identificador: "writeln"
 "/"
 
 
-//formatação   de formatação - reconhecer e ignorar
+//formataï¿½ï¿½o   de formataï¿½ï¿½o - reconhecer e ignorar
 :[\s\t\n] // ignorar
 
 // comentarios 
@@ -117,49 +117,46 @@ writeln = identificador: "writeln"
 <termo_>
 <fator>
 #Grammar
-<programa>		::= #15 <lista_de_comandos> #16;
+<programa>		::= #15 #21 <lista_de_comandos> #16;
+
+<lista_identificadores> 	::= identificador #22 <lista_identificadores_1> ;
+<lista_identificadores_1> 	::= Ã® | "," <lista_identificadores> ;
 
 <lista_de_comandos> 	::= <comando> ";" <lista_de_comandos_1> ;
-<lista_de_comandos_1> 	::= î |  <lista_de_comandos>;
-
+<lista_de_comandos_1> 	::= Ã® |  <lista_de_comandos>;
 <comando> 		::= <comando_atribuicao> | <comando_entrada_dados> | <comando_saida_dados> |<comando_selecao> | <comando_repeticao> ;
 
 <comando_atribuicao> 	::= <lista_identificadores> "=" <expressao> <comando_atribuicao_1> ;
-<comando_atribuicao_1> 	::= ":" if <expressao> | î ;
+<comando_atribuicao_1> 	::= #24 Ã® | #25 ":" if <expressao> #26;
 
-<comando_entrada_dados> 	::= read "(" <lista_identificadores> ")" ;
+<comando_entrada_dados> 	::= read "(" <lista_identificadores> #27 ")" ;
+
+<comando_saida_dados> 	::= write "(" <lista_expressoes> ")" | writeln "(" <lista_expressoes> ")" #17;
+<lista_expressoes> 	::= <expressao> #14 <lista_expressoes_1> ;
+<lista_expressoes_1>	::= Ã® | "," <lista_expressoes> ;
  
-<comando_saida_dados> 	::= write "(" <lista_expressoes> ")" |
-		        	writeln "(" <lista_expressoes> ")" #17;
+<comando_selecao>       ::= if "(" <expressao> ")" #28 <lista_de_comandos> <comando_selecao_1> ;
+<comando_selecao_1>     ::= end #29 | #30 else <lista_de_comandos> end  #29;
 
-<comando_selecao>   	::= if "(" <expressao> ")" <lista_de_comandos> <comando_selecao_1> ;
-<comando_selecao_1> 	::= end | else <lista_de_comandos> end ;
-
-<comando_repeticao> 	::= check "(" <expressao> ")" ":" if <comando_repeticao_1> ;
-<comando_repeticao_1>	::= true <lista_de_comandos> end | false <lista_de_comandos> end ;
-
-<lista_expressoes> 	::= <expressao> <lista_expressoes_1> ;
-<lista_expressoes_1>	::= î | "," <lista_expressoes> ;
-
-<lista_identificadores> 	::= identificador <lista_identificadores_1> ;
-<lista_identificadores_1> 	::= î | "," <lista_identificadores> ;
+<comando_repeticao> 	::= check #31 "(" <expressao> ")" ":" if <comando_repeticao_1> #32 <lista_de_comandos> end #33;
+<comando_repeticao_1>	::= true | false;
 
 
 <expressao>			::= <elemento> <expressao_>  ;
-<expressao_>			::= î | and <elemento> #18 <expressao_> | or <elemento> #19 <expressao_> ;
+<expressao_>			::= Ã® | and <elemento> #18 <expressao_> | or <elemento> #19 <expressao_> ;
 <elemento>			::= <relacional> | true #11 | false #12 | not <elemento> #13;
 
 <relacional>			::= <aritmetica> <relacional_> ;
-<relacional_>			::= î | <operador_relacional> #9 <aritmetica> #10;
+<relacional_>			::= Ã® | <operador_relacional> #9 <aritmetica> #10 ;
 <operador_relacional>		::= "==" | "!=" | "<" | "<=" | ">" | ">=" ;
 
 <aritmetica>			::= <termo> <aritmetica_>  ;
-<aritmetica_>			::= î | "+" <termo> #1 <aritmetica_> | "-" <termo> #2 <aritmetica_> ;
+<aritmetica_>			::= Ã® | "+" <termo> #1 <aritmetica_> | "-" <termo> #2 <aritmetica_> ;
 
 <termo>				::= <fator> <termo_> ;
-<termo_>			::= î | "*" <fator> #3 <termo_> | "/" <fator> #4 <termo_> ;
+<termo_>			::= Ã® | "*" <fator> #3 <termo_> | "/" <fator> #4 <termo_> ;
 
-<fator>			::= identificador       |
+<fator>			::= identificador   #23 |
 			    constante_int   #5  | 
 		   	    constante_float #6  | 
 			    binario             |

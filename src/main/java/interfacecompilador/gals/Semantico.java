@@ -209,19 +209,19 @@ public class Semantico implements Constants {
             case ">=":
                 sJoiner.add("cgt");
                 sJoiner.add("ldc.i4.0");
-                sJoiner.add("and");
+                sJoiner.add("ceq");
             case "<":
                 sJoiner.add("clt");
             case "<=":
                 sJoiner.add("clt");
                 sJoiner.add("ldc.i4.0");
-                sJoiner.add("and");
+                sJoiner.add("ceq");
             case "==":
                 sJoiner.add("ceq");
             case "!=":
                 sJoiner.add("ceq");
                 sJoiner.add("ldc.i4.0");
-                sJoiner.add("and");
+                sJoiner.add("ceq");
         }
 
     }
