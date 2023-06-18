@@ -10,6 +10,9 @@ public class Semantico implements Constants {
     private static final Stack<String> pilhaRotulo = new Stack<>();
     private Map<String, String> tabelaSimbolos = new HashMap<>();
     private int indexRotulo = 0;
+    private int numeroRotulo = 0;
+    private String tipoVar;
+    private List<String> listaId = new ArrayList<>();
     private String tipoVariavel;
     private static StringJoiner sJoiner = new StringJoiner("\n");
     private String operador;
@@ -92,6 +95,18 @@ public class Semantico implements Constants {
                 break;
             case 33:
                 acao33(token);
+                break;
+            case 22:
+                acao22(token);
+                break;
+            case 25:
+                acao25();
+                break;
+            case 28:
+                acao28();
+                break;
+            case 31:
+                acao31();
                 break;
         }
 
@@ -338,5 +353,31 @@ public class Semantico implements Constants {
         if (tipoId.equals("int64")){
             sJoiner.add("conv.r8");
         }
+    }
+
+    private void acao22(Token token) {
+        listaId.add(converterId(token.getLexeme()));
+    }
+
+    private void acao25(){
+        String id = listaId.remove(0);
+        String tipoId = tabelaSimbolos.get(id);
+        pilha.pop();
+        if(tipoId.equals("int64")){
+            sJoiner.add("conv.i8");
+        }
+        sJoiner.add("stloc " + id);
+    }
+
+    private void acao28(){
+        numeroRotulo++;
+        sJoiner.add("brfalse nr_" + numeroRotulo);
+        pilhaRotulo.push("nr_" + numeroRotulo);
+    }
+
+    private void acao31() {
+        numeroRotulo++;
+        sJoiner.add("nr_" + numeroRotulo + ":");
+        pilhaRotulo.push("nr_" + numeroRotulo);
     }
 }
