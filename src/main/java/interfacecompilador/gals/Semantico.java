@@ -3,13 +3,14 @@ package interfacecompilador.gals;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
-import java.util.StringJoiner;
+import java.util.*;
 
 public class Semantico implements Constants {
     private static final Stack<String> pilha = new Stack<>();
+    private static final Stack<String> pilhaRotulo = new Stack<>();
+    private Map<String, String> tabelaSimbolos = new HashMap<>();
+    private int indexRotulo = 0;
+    private String tipoVariavel;
     private static StringJoiner sJoiner = new StringJoiner("\n");
     private String operador;
     private String pathToCompile;
@@ -77,6 +78,21 @@ public class Semantico implements Constants {
             case 20:
                 acao20(token);
                 break;
+            case 21:
+                acao21(token);
+                break;
+            case 24:
+                acao24();
+                break;
+            case 27:
+                acao27();
+                break;
+            case 30:
+                acao30(token);
+                break;
+            case 33:
+                acao33(token);
+                break;
         }
 
     }
@@ -110,6 +126,15 @@ public class Semantico implements Constants {
 
     private String converterConstantesNumericas(String num) {
         return num.replace(".", "").replace(",",".");
+    }
+    private String converteTokenString(Token token) {
+        return token.getLexeme().replace("\\s", " ");
+    }
+    private String converterId(String lexeme) {
+        if (lexeme.equals("dividendo") || lexeme.equals("divisor")) {
+            return lexeme.concat("_compiled");
+        }
+        return lexeme;
     }
 
     private void acao1() throws SemanticError {
@@ -279,38 +304,39 @@ public class Semantico implements Constants {
         pilha.push("string");
         sJoiner.add("ldstr".concat(token.getLexeme()));
     }
-//    private void acao20() throws SemanticError {
-//        String tipo1 = pilha.pop();
-//        String tipo2 = pilha.pop();
-//        if (!tipo1.equals("int64") || !tipo2.equals("int64")) {
-//            throw new SemanticError("Tipo incompatível em expressão aritmética");
-//        }
-//        addAritimeticos(tipo1, tipo2);
-//
-//        sJoiner.add("conv.i8");
-//        sJoiner.add("stloc divisor");
-//
-//        sJoiner.add("conv.i8");
-//        sJoiner.add("stloc dividendo");
-//
-//        sJoiner.add("ldloc dividendo");
-//        sJoiner.add("conv.r8");
-//
-//        sJoiner.add("ldloc dividendo");
-//        sJoiner.add("conv.r8");
-//
-//        sJoiner.add("ldloc divisor");
-//        sJoiner.add("conv.r8");
-//
-//        sJoiner.add("div");
-//        sJoiner.add("conv.i8");
-//        sJoiner.add("conv.r8");
-//
-//        sJoiner.add("ldloc divisor");
-//        sJoiner.add("conv.r8");
-//
-//        sJoiner.add("mul");
-//        sJoiner.add("sub");
-//    }
 
+    private void acao21(Token token) {
+        pilha.push("string");
+        sJoiner.add("ldstr " + converteTokenString(token));
+    }
+    private void acao24() {
+        indexRotulo++;
+        sJoiner.add("brfalse nr_" + indexRotulo);
+        pilhaRotulo.push("nr_" + indexRotulo);
+    }
+
+    private void acao27() {
+        indexRotulo++;
+        sJoiner.add("nr_" + indexRotulo + ":");
+        pilhaRotulo.push("nr_" + indexRotulo);
+    }
+
+    private void acao30(Token token){
+        if((token.getLexeme()).equals("int")) {
+            tipoVariavel = "int64";
+        }
+        if((token.getLexeme()).equals("float")) {
+            tipoVariavel = "float64";
+        }
+    }
+
+    private void acao33(Token token){
+        String id = converterId(token.getLexeme());
+        String tipoId = tabelaSimbolos.get(id);
+        pilha.push(tipoId);
+        sJoiner.add("ldloc " + id);
+        if (tipoId.equals("int64")){
+            sJoiner.add("conv.r8");
+        }
+    }
 }
