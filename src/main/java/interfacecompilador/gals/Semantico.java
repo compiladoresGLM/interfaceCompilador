@@ -6,13 +6,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class Semantico implements Constants {
-    private static final Stack<String> pilha = new Stack<>();
+    private static final Stack<String> pilhaTipoExpressao = new Stack<>();
     private static final Stack<String> pilhaRotulo = new Stack<>();
     private Map<String, String> tabelaSimbolos = new HashMap<>();
-    private int indexRotulo = 0;
     private int numeroRotulo = 0;
     private List<String> listaId = new ArrayList<>();
-    private String tipoVariavel;
     private static StringJoiner sJoiner = new StringJoiner("\n");
     private String operador;
     private String pathToCompile;
@@ -26,6 +24,13 @@ public class Semantico implements Constants {
     private final String TEMP_FLOAT = "_temp_float";
     private final String TEMP_STRING = "_temp_string";
     private final String TEMP_BOOL = "_temp_bool";
+
+    public Semantico() {
+        tabelaSimbolos.put(TEMP_INT, INT_64);
+        tabelaSimbolos.put(TEMP_FLOAT, FLOAT_64);
+        tabelaSimbolos.put(TEMP_STRING, STRING);
+        tabelaSimbolos.put(TEMP_BOOL, BOOL);
+    }
 
     public void setPathToCompile(String path) {
         pathToCompile = path;
@@ -59,7 +64,7 @@ public class Semantico implements Constants {
                 acao9(token);
                 break;
             case 10:
-                acao10(token);
+                acao10();
                 break;
             case 11:
                 acao11();
@@ -87,6 +92,7 @@ public class Semantico implements Constants {
                 break;
             case 19:
                 acao19();
+                break;
             case 20:
                 acao20(token);
                 break;
@@ -105,17 +111,26 @@ public class Semantico implements Constants {
             case 25:
                 acao25();
                 break;
+            case 26:
+                acao26();
+                break;
             case 27:
                 acao27();
                 break;
             case 28:
                 acao28();
                 break;
+            case 29:
+                acao29();
+                break;
             case 30:
                 acao30(token);
                 break;
             case 31:
                 acao31();
+                break;
+            case 32:
+                acao32();
                 break;
             case 33:
                 acao33(token);
@@ -124,44 +139,16 @@ public class Semantico implements Constants {
 
     }
 
-    private void validaTiposAritimeticos(String tipo1, String tipo2) throws SemanticError {
-        List<String> tiposValidos = Arrays.asList(FLOAT_64, INT_64);
-        if (!tiposValidos.contains(tipo1) || !tiposValidos.contains(tipo2)) {
-            throw new SemanticError("tipo(s) incompatível(is) na expressão aritmética");
-        }
-    }
-
-    private void addAritimeticos(String tipo1, String tipo2) {
-        if (tipo1.equals(INT_64) || tipo2.equals(INT_64)) {
-            pilha.push(INT_64);
+    private void empilhaTipoAritimetico(String tipo1, String tipo2) {
+        if (FLOAT_64.equals(tipo1) || FLOAT_64.equals(tipo2)) {
+            pilhaTipoExpressao.push(FLOAT_64);
         } else {
-            pilha.push(FLOAT_64);
-        }
-    }
-
-    private void isBool(String tipo) throws SemanticError {
-        if (!tipo.equals("bool")) {
-            throw new SemanticError("tipo(s) incompatível(is) na expressão lógica");
-        }
-    }
-
-    private void validaTiposLogicos(String tipo1, String tipo2) throws SemanticError {
-        if (!(tipo1.equals("bool") && tipo2.equals("bool"))) {
-            throw new SemanticError("tipo(s) incompatível(is) na expressão lógica");
+            pilhaTipoExpressao.push(INT_64);
         }
     }
 
     private String converterConstantesNumericas(String num) {
         return num.replace(".", "").replace(",",".");
-    }
-    private String converteTokenString(Token token) {
-        return token.getLexeme().replace("\\s", " ");
-    }
-    private String converterId(String lexeme) {
-        if (lexeme.equals("dividendo") || lexeme.equals("divisor")) {
-            return lexeme.concat("_compiled");
-        }
-        return lexeme;
     }
 
     private boolean ehTipoCompativel(String tipoVar, String tipoValor) {
@@ -196,6 +183,8 @@ public class Semantico implements Constants {
                     throw new SemanticError("Tipos incompatíveis em comando de atribuição");
                 }
             }
+
+            sJoiner.add("stloc " + id);
         }
     }
 
@@ -220,57 +209,38 @@ public class Semantico implements Constants {
     }
 
     private void acao1() throws SemanticError {
-        String tipo1 = pilha.pop();
-        String tipo2 = pilha.pop();
-        validaTiposAritimeticos(tipo1, tipo2);
-        addAritimeticos(tipo1, tipo2);
+        empilhaTipoAritimetico(pilhaTipoExpressao.pop(), pilhaTipoExpressao.pop());
         sJoiner.add("add");
     }
 
     private void acao2() throws SemanticError {
-        String tipo1 = pilha.pop();
-        String tipo2 = pilha.pop();
-        validaTiposAritimeticos(tipo1, tipo2);
-        addAritimeticos(tipo1, tipo2);
+        empilhaTipoAritimetico(pilhaTipoExpressao.pop(), pilhaTipoExpressao.pop());
         sJoiner.add("sub");
     }
 
     private void acao3() throws SemanticError {
-        String tipo1 = pilha.pop();
-        String tipo2 = pilha.pop();
-        validaTiposAritimeticos(tipo1, tipo2);
-        addAritimeticos(tipo1, tipo2);
+        empilhaTipoAritimetico(pilhaTipoExpressao.pop(), pilhaTipoExpressao.pop());
         sJoiner.add("mul");
     }
 
     private void acao4() throws SemanticError {
-        String tipo1 = pilha.pop();
-        String tipo2 = pilha.pop();
-        validaTiposAritimeticos(tipo1, tipo2);
-        addAritimeticos(tipo1, tipo2);
+        empilhaTipoAritimetico(pilhaTipoExpressao.pop(), pilhaTipoExpressao.pop());
         sJoiner.add("div");
     }
 
     private void acao5(Token token) {
-        pilha.push(INT_64);
+        pilhaTipoExpressao.push(INT_64);
         sJoiner.add("ldc.i8 ".concat(converterConstantesNumericas(token.getLexeme())));
         sJoiner.add("conv.r8");
     }
 
 
     private void acao6(Token token) {
-        pilha.push(FLOAT_64);
+        pilhaTipoExpressao.push(FLOAT_64);
         sJoiner.add("ldc.r8 ".concat(converterConstantesNumericas(token.getLexeme())));
     }
 
     private void acao8() {
-        String tipo = pilha.pop();
-
-        if (INT_64.equals(tipo) || FLOAT_64.equals(tipo)) {
-            pilha.add(tipo);
-        } else {
-            //todo throw exceprion?
-        }
 
         sJoiner.add("ldc.i8 -1");
         sJoiner.add("conv.r8");
@@ -281,60 +251,61 @@ public class Semantico implements Constants {
         operador = token.getLexeme();
     }
 
-    private void acao10(Token token) {
+    private void acao10() {
 
-        pilha.pop();
-        pilha.pop();
+        pilhaTipoExpressao.pop();
+        pilhaTipoExpressao.pop();
         
-        pilha.add("bool");
+        pilhaTipoExpressao.add("bool");
 
-        switch (token.getLexeme()) {
+        switch (operador) {
             case ">":
                 sJoiner.add("cgt");
+                break;
             case ">=":
                 sJoiner.add("cgt");
                 sJoiner.add("ldc.i4.0");
                 sJoiner.add("ceq");
+                break;
             case "<":
                 sJoiner.add("clt");
+                break;
             case "<=":
                 sJoiner.add("clt");
                 sJoiner.add("ldc.i4.0");
                 sJoiner.add("ceq");
+                break;
             case "==":
                 sJoiner.add("ceq");
+                break;
             case "!=":
                 sJoiner.add("ceq");
                 sJoiner.add("ldc.i4.0");
                 sJoiner.add("ceq");
+                break;
         }
 
     }
 
     private void acao11() {
-        pilha.push("bool");
+        pilhaTipoExpressao.push("bool");
         sJoiner.add("ldc.i4.1");
     }
 
     private void acao12() {
-        pilha.push("bool");
+        pilhaTipoExpressao.push("bool");
         sJoiner.add("ldc.i4.0");
     }
 
-    private void acao13() throws SemanticError {
-        String tipo = pilha.pop();
-        isBool(tipo);
+    private void acao13() {
         sJoiner.add("ldc.i4.1");
         sJoiner.add("xor");
     }
 
     private void acao14() {
-        String tipo = pilha.pop();
+        String tipo = pilhaTipoExpressao.pop();
         if (tipo.equals(INT_64)) {
             sJoiner.add("conv.i8");
-        }
-        if (tipo.equals("char")) {
-            sJoiner.add(STRING);
         }
         sJoiner.add("call void [mscorlib]System.Console::Write(" + tipo + ")");
     }
@@ -370,24 +341,24 @@ public class Semantico implements Constants {
     }
 
     private void acao18() throws SemanticError {
-        String tipo1 = pilha.pop();
-        String tipo2 = pilha.pop();
-        validaTiposLogicos(tipo1, tipo2);
-        pilha.push("bool");
+        String tipo1 = pilhaTipoExpressao.pop();
+        String tipo2 = pilhaTipoExpressao.pop();
+        pilhaTipoExpressao.push("bool");
         sJoiner.add("and");
     }
 
     private void acao19() throws SemanticError {
-        String tipo1 = pilha.pop();
-        String tipo2 = pilha.pop();
-        validaTiposLogicos(tipo1, tipo2);
-        pilha.push("bool");
+        String tipo1 = pilhaTipoExpressao.pop();
+        String tipo2 = pilhaTipoExpressao.pop();
+        pilhaTipoExpressao.push("bool");
         sJoiner.add("or");
     }
 
     private void acao20(Token token) {
-        pilha.push(STRING);
-        sJoiner.add("ldstr".concat(token.getLexeme()));
+
+            pilhaTipoExpressao.push(STRING);
+            sJoiner.add("ldstr ".concat(token.getLexeme()));
+
     }
 
     private void acao21() {
@@ -395,7 +366,7 @@ public class Semantico implements Constants {
     }
 
     private void acao22(Token token) {
-        listaId.add(converterId(token.getLexeme()));
+        listaId.add(token.getLexeme());
     }
 
     private void acao23(Token token) throws SemanticError {
@@ -407,7 +378,7 @@ public class Semantico implements Constants {
                 sJoiner.add("conv.r8");
             }
 
-            pilha.push(tabelaSimbolos.get(token.getLexeme()));
+            pilhaTipoExpressao.push(tabelaSimbolos.get(token.getLexeme()));
 
         } else {
             throw new SemanticError("identificador " + token.getLexeme() + " não declarado");
@@ -416,15 +387,16 @@ public class Semantico implements Constants {
 
     private void acao24() throws SemanticError {
 
-        String tipoExpressao = pilha.pop();
         String varTemp = listaId.get(listaId.size() - 1);
 
+        atribuicao(pilhaTipoExpressao.pop(), varTemp);
 
+        listaId.clear();
     }
 
     private void acao25(){
 
-        String tipoExpressao = pilha.pop();
+        String tipoExpressao = pilhaTipoExpressao.pop();
 
         switch (tipoExpressao) {
             case INT_64 -> {
@@ -451,18 +423,18 @@ public class Semantico implements Constants {
     // todo Verificar com a Prof
     private void acao26() throws SemanticError {
 
-        String tipoExpressao = pilha.peek();
-        sJoiner.add("brfalse novo_rotulo");
+        numeroRotulo++;
+        String rotulo = "r_" + numeroRotulo;
 
-
+        String tipoExpressao = pilhaTipoExpressao.peek();
+        sJoiner.add("brfalse " + pilhaRotulo.peek());
 
         String varTemp = listaId.get(listaId.size() - 1);
         listaId.remove(listaId.size() - 1);
 
         atribuicao(tipoExpressao, varTemp);
 
-
-
+        sJoiner.add(rotulo + ":");
     }
 
     private void acao27() throws SemanticError {
@@ -481,51 +453,61 @@ public class Semantico implements Constants {
             if (!tipoVar.equals(STRING)) sJoiner
                     .add("call " + tipoVar + " [mscorlib]System." + getClasse(tipoVar) + "::Parse(string)");
 
+            sJoiner.add("stloc " + id);
         }
 
+        listaId.clear();
 
     }
 
     private void acao28(){
+
+        pilhaTipoExpressao.pop();
+
         numeroRotulo++;
-        sJoiner.add("brfalse nr_" + numeroRotulo);
-        pilhaRotulo.push("nr_" + numeroRotulo);
+        sJoiner.add("brfalse " + pilhaRotulo.peek());
+
+        pilhaRotulo.push("r_" + numeroRotulo);
+
     }
 
-    // todo Maas
     private void acao29() {
-        indexRotulo++;
-        sJoiner.add("nr_" + numeroRotulo + ":");
-
-        pilhaRotulo.pop();
+        sJoiner.add(pilhaRotulo.pop() + ":");
     }
 
     private void acao30(Token token){
-        if((token.getLexeme()).equals("int")) {
-            tipoVariavel = INT_64;
-        }
-        if((token.getLexeme()).equals("float")) {
-            tipoVariavel = FLOAT_64;
-        }
+        numeroRotulo++;
+        sJoiner.add("br r_" + pilhaRotulo.peek());
+
+        pilhaRotulo.pop();
+
+        pilhaRotulo.add("r_" + numeroRotulo);
+
+        sJoiner.add(pilhaRotulo.peek());
     }
 
     private void acao31() {
+
+        pilhaTipoExpressao.pop();
+
         numeroRotulo++;
-        sJoiner.add("nr_" + numeroRotulo + ":");
-        pilhaRotulo.push("nr_" + numeroRotulo);
+        pilhaRotulo.add("r_" + numeroRotulo);
+
+        sJoiner.add(pilhaRotulo.peek() + ":");
     }
 
-    // todo Maas
-    private void acao32() {}
+    private void acao32() {
+        pilhaRotulo.add("r_" + numeroRotulo);
+        sJoiner.add("brfalse " + pilhaRotulo.peek());
+    }
 
     private void acao33(Token token){
-        String id = converterId(token.getLexeme());
-        String tipoId = tabelaSimbolos.get(id);
-        pilha.push(tipoId);
-        sJoiner.add("ldloc " + id);
-        if (tipoId.equals(INT_64)){
-            sJoiner.add("conv.r8");
-        }
+
+        String r1 = pilhaRotulo.pop();
+        String r2 = pilhaRotulo.pop();
+
+        sJoiner.add("br " + r1);
+        sJoiner.add(r2 + ":");
     }
 
 }
