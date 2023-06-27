@@ -98,7 +98,6 @@ writeln = identificador: "writeln"
 <comando_entrada_dados>
 <comando_saida_dados>
 <comando_selecao> 
-<comando_selecao_1>
 <comando_repeticao>
 <comando_repeticao_1>
 <lista_expressoes>
@@ -116,6 +115,7 @@ writeln = identificador: "writeln"
 <termo>		
 <termo_>
 <fator>
+<else>
 #Grammar
 <programa>		::= #15 #21 <lista_de_comandos> #16;
 
@@ -135,8 +135,8 @@ writeln = identificador: "writeln"
 <lista_expressoes> 	::= <expressao> #14 <lista_expressoes_1> ;
 <lista_expressoes_1>	::= î | "," <lista_expressoes> ;
  
-<comando_selecao>       ::= if "(" <expressao> ")" #28 <lista_de_comandos> <comando_selecao_1> ;
-<comando_selecao_1>     ::= end #29 | #30 else <lista_de_comandos> end  #29;
+<comando_selecao>       	::= if "(" <expressao> ")" #28 <lista_de_comandos> <else> end #29;
+<else>     		::= î | #30 else <lista_de_comandos>;
 
 <comando_repeticao> 	::= check #31 "(" <expressao> ")" ":" if <comando_repeticao_1> #32 <lista_de_comandos> end #33;
 <comando_repeticao_1>	::= true | false;

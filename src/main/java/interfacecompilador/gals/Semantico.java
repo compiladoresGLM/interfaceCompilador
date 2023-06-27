@@ -167,21 +167,27 @@ public class Semantico implements Constants {
 
     private void atribuicao(String tipoExpressao, String varTemp) throws SemanticError {
 
-        sJoiner.add("ldloc " + varTemp);
+        if (varTemp != null) {
+            sJoiner.add("ldloc " + varTemp);
+        }
 
-        for (int i = 1; i < listaId.size() - 1; i++) {
+        for (int i = 0; i < listaId.size() - 1; i++) {
             sJoiner.add("dup");
         }
 
         for (String id : listaId) {
 
-            if (tabelaSimbolos.get(id).isEmpty()) {
+            if (tabelaSimbolos.get(id) == null) {
                 sJoiner.add(".locals (%s %s)".formatted(tipoExpressao, id));
                 tabelaSimbolos.put(id, tipoExpressao);
             } else {
                 if (!ehTipoCompativel(tipoExpressao, tabelaSimbolos.get(id))) {
                     throw new SemanticError("Tipos incompatíveis em comando de atribuição");
                 }
+            }
+
+            if (tabelaSimbolos.get(id).equals(INT_64)) {
+                sJoiner.add("conv.i8");
             }
 
             sJoiner.add("stloc " + id);
@@ -221,6 +227,7 @@ public class Semantico implements Constants {
     private void acao3() throws SemanticError {
         empilhaTipoAritimetico(pilhaTipoExpressao.pop(), pilhaTipoExpressao.pop());
         sJoiner.add("mul");
+        if (pilhaTipoExpressao.peek().equals(INT_64)) sJoiner.add("conv.i8");
     }
 
     private void acao4() throws SemanticError {
@@ -318,8 +325,6 @@ public class Semantico implements Constants {
         sJoiner.add(".class public _UNICA{");
         sJoiner.add(".method static public void _principal() {");
         sJoiner.add(".entrypoint");
-        sJoiner.add(".locals (int64 dividendo)");
-        sJoiner.add(".locals (int64 divisor)");
     }
 
     private void acao16() throws IOException {
@@ -371,7 +376,7 @@ public class Semantico implements Constants {
 
     private void acao23(Token token) throws SemanticError {
 
-        if (listaId.contains(token.getLexeme())) {
+        if (tabelaSimbolos.get(token.getLexeme()) != null) {
             sJoiner.add("ldloc " + token.getLexeme());
 
             if (INT_64.equals(tabelaSimbolos.get(token.getLexeme()))) {
@@ -389,7 +394,7 @@ public class Semantico implements Constants {
 
         String varTemp = listaId.get(listaId.size() - 1);
 
-        atribuicao(pilhaTipoExpressao.pop(), varTemp);
+        atribuicao(pilhaTipoExpressao.pop(), null);
 
         listaId.clear();
     }
@@ -426,13 +431,12 @@ public class Semantico implements Constants {
         numeroRotulo++;
         String rotulo = "r_" + numeroRotulo;
 
-        String tipoExpressao = pilhaTipoExpressao.peek();
         sJoiner.add("brfalse " + pilhaRotulo.peek());
 
         String varTemp = listaId.get(listaId.size() - 1);
         listaId.remove(listaId.size() - 1);
 
-        atribuicao(tipoExpressao, varTemp);
+        atribuicao(pilhaTipoExpressao.peek(), varTemp);
 
         sJoiner.add(rotulo + ":");
     }
@@ -444,7 +448,7 @@ public class Semantico implements Constants {
             String tipoVar = tabelaSimbolos.get(id);
 
             // Verifica se a variável já foi declarada
-            if (tipoVar.isEmpty()) {
+            if (tipoVar == null) {
                 throw new SemanticError("Identificador %s não declarado".formatted(id));
             }
 
@@ -465,9 +469,9 @@ public class Semantico implements Constants {
         pilhaTipoExpressao.pop();
 
         numeroRotulo++;
-        sJoiner.add("brfalse " + pilhaRotulo.peek());
+        pilhaRotulo.add("r_" + numeroRotulo);
 
-        pilhaRotulo.push("r_" + numeroRotulo);
+        sJoiner.add("brfalse " + pilhaRotulo.peek());
 
     }
 
@@ -477,34 +481,33 @@ public class Semantico implements Constants {
 
     private void acao30(Token token){
         numeroRotulo++;
-        sJoiner.add("br r_" + pilhaRotulo.peek());
 
-        pilhaRotulo.pop();
+        sJoiner.add("br r_" + numeroRotulo);
+
+        String rotulo1 = pilhaRotulo.pop();
+        sJoiner.add(rotulo1 + ":");
 
         pilhaRotulo.add("r_" + numeroRotulo);
-
-        sJoiner.add(pilhaRotulo.peek());
     }
 
     private void acao31() {
 
-        pilhaTipoExpressao.pop();
-
+        // NAO ADICIONAR A EXCLUSÃO DA PILHA
         numeroRotulo++;
         pilhaRotulo.add("r_" + numeroRotulo);
-
         sJoiner.add(pilhaRotulo.peek() + ":");
     }
 
     private void acao32() {
+        numeroRotulo++;
         pilhaRotulo.add("r_" + numeroRotulo);
-        sJoiner.add("brfalse " + pilhaRotulo.peek());
+        sJoiner.add("brtrue " + pilhaRotulo.peek());
     }
 
     private void acao33(Token token){
 
-        String r1 = pilhaRotulo.pop();
         String r2 = pilhaRotulo.pop();
+        String r1 = pilhaRotulo.pop();
 
         sJoiner.add("br " + r1);
         sJoiner.add(r2 + ":");
